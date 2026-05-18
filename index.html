@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vérification requise</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0b0b12;
+            color: white;
+            overflow: hidden;
+        }
+
+        /* Arrière-plan avec les images : NET et CLAIR (sans flou) */
+        .bg-grid {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 5px;
+            padding: 5px;
+            box-sizing: border-box;
+            z-index: 1;
+        }
+
+        .bg-grid img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        /* Fenêtre principale (Overlay de blocage) */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.65); /* Assombrit un peu le fond pour lire le texte */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        /* Boîte de Quiz ANIMÉE (Apparition en Zoom + Rebond) */
+        .quiz-container {
+            background: #ffffff;
+            color: #1a1a1a;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.8);
+            max-width: 400px;
+            width: 85%;
+            animation: popupReveal 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        h2 {
+            font-size: 22px;
+            margin-bottom: 25px;
+            color: #111;
+        }
+
+        /* Les étapes du quiz */
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Style des boutons avec ANIMATION au clic */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-option {
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        
+        /* Réduction légère du bouton quand on clique dessus (effet tactile) */
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        /* Bouton START final avec dégradé et impulsion animée */
+        .btn-start {
+            background: linear-gradient(45deg, #ff007b, #ff7b00);
+            color: white;
+            font-size: 18px;
+            letter-spacing: 1px;
+            animation: pulseEffect 1.5s infinite;
+        }
+
+        /* --------------------------------------
+           LES ANIMATIONS (CSS KEYFRAMES)
+        ----------------------------------------- */
+        
+        /* Animation d'apparition de la boîte (Zoom + Rebond) */
+        @keyframes popupReveal {
+            from {
+                opacity: 0;
+                transform: scale(0.7);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Animation de transition fluide entre les questions */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Animation de pulsation sur le bouton START pour attirer le clic */
+        @keyframes pulseEffect {
+            0% { box-shadow: 0 0 0 0 rgba(255, 0, 123, 0.7); }
+            70% { box-shadow: 0 0 0 12px rgba(255, 0, 123, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 0, 123, 0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid">
+        <img src="https://cdni.pornpics.com/1280/1/337/56364258/56364258_003_bf44.jpg">
+        <img src="https://cdni.pornpics.com/1280/7/551/54105202/54105202_011_78da.jpg">
+        <img src="https://cdni.pornpics.com/1280/7/618/12188786/12188786_028_94c9.jpg">
+        <img src="https://cdni.pornpics.com/1280/7/95/42395605/42395605_097_02b4.jpg">
+    </div>
+
+    <div class="overlay">
+        <div class="quiz-container">
+            
+            <div class="step active" id="step1">
+                <h2>Are you over 18 years old?</h2>
+                <button class="btn btn-option" onclick="nextStep(2)">YES</button>
+                <button class="btn btn-option" onclick="window.location.href='https://google.com'">NO</button>
+            </div>
+
+            <div class="step" id="step2">
+                <h2>Are you a man or a woman?</h2>
+                <button class="btn btn-option" onclick="nextStep(3)">MAN</button>
+                <button class="btn btn-option" onclick="nextStep(3)">WOMAN</button>
+            </div>
+
+            <div class="step" id="step3">
+                <h2>What kind of content do you prefer?</h2>
+                <button class="btn btn-option" onclick="nextStep(4)">Photos & Videos</button>
+                <button class="btn btn-option" onclick="nextStep(4)">Live Chat</button>
+            </div>
+
+            <div class="step" id="step4">
+                <h2>Your access is ready!</h2>
+                <p style="color:#666; margin-bottom:20px;">Click below to unlock the content.</p>
+                <button class="btn btn-start" onclick="redirectToAd()">START</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Ton lien publicitaire Monetag est déjà intégré ici
+        const monLienPublicitaire = "Https://omg10.com/4/9297652";
+
+        function nextStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById('step' + stepNumber).classList.add('active');
+        }
+
+        function redirectToAd() {
+            window.location.href = monLienPublicitaire;
+        }
+    </script>
+
+</body>
+</html>
+
